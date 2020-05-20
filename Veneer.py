@@ -47,6 +47,15 @@ class Client:
             new_listing = Listing(art, price, self)
             veneer.add_listing(new_listing)
 
+    def buy_artwork(self, artwork):
+        if self != artwork.owner:
+            for listing in veneer.listings:
+                if listing.art == artwork:
+                    art_listing = listing
+            artwork.owner = self
+            veneer.remove_listing(art_listing)
+
+
 
 class Listing:
     def __init__(self, art, price, seller):
@@ -64,9 +73,11 @@ edytta = Client("Edytta Halpirt")
 moma = Client("The MOMA", "New York", True)
 girl_with_mandolin = Art("Pićasso, Pablo", "Girl with a Mandolin (Fanny Tellier)", "oil on canvas", 1910, edytta)
 vetheuil_in_fog = Art("Monet, Claude", "Vétheuil in the Fog", "oil on canvas", 1879, moma)
-# veneer.add_listing(girl_with_mandolin)
-# veneer.add_listing(vetheuil_in_fog)
-# print(girl_with_mandolin)
 edytta.sell_artwork(girl_with_mandolin, "$6M")
 moma.sell_artwork(vetheuil_in_fog, "$22M")
+moma.buy_artwork(girl_with_mandolin)
+print(girl_with_mandolin)
+veneer.show_listings()
+edytta.buy_artwork(vetheuil_in_fog)
+print(vetheuil_in_fog)
 veneer.show_listings()
